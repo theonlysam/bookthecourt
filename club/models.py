@@ -8,7 +8,7 @@ class Member(AbstractUser):
                     ('Foreign', 'Foreign')]
     
     email = models.EmailField(unique=True)
-    type = models.CharField(choices=TYPE_CHOICES)
+    type = models.CharField(max_length=20,choices=TYPE_CHOICES)
     address = models.CharField(max_length=100)
     home_phone = models.CharField(max_length=20)
     mobile = models.CharField(max_length=20)
@@ -26,15 +26,15 @@ class Booking(models.Model):
     updated_at = models.DateField(auto_now=True)
     recurring = models.BooleanField(default=False)
     owner = models.ForeignKey(Member, 
-                               on_delete=models.SET_NULL, 
-                               related_name='booking')
-    players = models.ManyToManyField(Member)
+                               on_delete=models.PROTECT, 
+                               related_name='booked_by')
+    players = models.ManyToManyField(Member, related_name='players')
 
     class Meta:
-        ordering = ['-time']
+        ordering = ['-start_date']
 
     def __str__(self):
-        return f'{self.time} - {self.member}'
+        return f'{self.start_date} - {self.member}'
     
 
 # class Guests(models.Model):
@@ -50,7 +50,7 @@ class Subscription(models.Model):
     type = models.CharField(max_length=20)
     amount = models.PositiveIntegerField()
     member = models.ForeignKey(Member, 
-                               on_deletee=models.PROTECT, 
+                               on_delete=models.PROTECT, 
                                related_name='subscription')
     date = models.PositiveSmallIntegerField()
     date_added = models.DateTimeField(auto_now_add=True)
@@ -69,7 +69,7 @@ class Messages(models.Model):
                     ('Admin', 'Admin'),
                     ('Member', 'Member')]
     
-    type = models.CharField(choices=TYPE_CHOICES)
+    type = models.CharField(max_length=25, choices=TYPE_CHOICES)
     subject = models.CharField(max_length=100)
     message = models.TextField()
     sender = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='message_sender')    
