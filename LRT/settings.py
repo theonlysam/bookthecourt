@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'club',
+    'phone_field',
 ]
 
 MIDDLEWARE = [

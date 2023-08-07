@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from phone_field import PhoneField
 
 
 class Member(AbstractUser):
@@ -10,8 +11,8 @@ class Member(AbstractUser):
     email = models.EmailField(unique=True)
     type = models.CharField(max_length=20,choices=TYPE_CHOICES)
     address = models.CharField(max_length=100)
-    home_phone = models.CharField(max_length=20)
-    mobile = models.CharField(max_length=20)
+    home_phone = PhoneField(blank=True, help_text='Home phone number')
+    mobile = PhoneField(blank=True, help_text='Mobile number')
     date_added = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateField(auto_now=True)
     
