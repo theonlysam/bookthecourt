@@ -9,8 +9,7 @@ class BookingForm(forms.ModelForm):
         fields = ['start_date', 'end_date','recurring', 'owner','players']
 
     def clean_players(self):
-        players = self.cleaned_data.get('authors')
-        if players and players > 4:
+        players = self.cleaned_data.get('players')
+        if players and len(players) > 4:
             raise ValidationError("Only 4 players per booking")
         return players
-   
