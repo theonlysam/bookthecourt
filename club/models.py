@@ -17,7 +17,7 @@ class Member(AbstractUser):
     last_updated = models.DateField(auto_now=True)
     
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.username}'
     
     
 class Booking(models.Model):      
@@ -25,7 +25,7 @@ class Booking(models.Model):
     end_date = models.DateTimeField()
     date_added = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    recurring = models.BooleanField(default=False)
+    recurring = models.BooleanField(default=False, blank=True, null=True)
     owner = models.ForeignKey(Member, 
                                on_delete=models.PROTECT, 
                                related_name='booked_by')

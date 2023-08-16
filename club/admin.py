@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Member, Booking, Subscription, Messages
+
+admin.site.register(Member)
+admin.site.register(Booking)
+admin.site.register(Subscription)
+admin.site.register(Messages)
