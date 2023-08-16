@@ -15,7 +15,7 @@ def Booking(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Booking added successfully')
-            form = BookingForm
+            form = BookingForm()
 
     context = {
         "form": form,
