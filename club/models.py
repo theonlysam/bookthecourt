@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from phone_field import PhoneField
 
 
 class Member(AbstractUser):
@@ -10,13 +11,13 @@ class Member(AbstractUser):
     email = models.EmailField(unique=True)
     type = models.CharField(max_length=20,choices=TYPE_CHOICES)
     address = models.CharField(max_length=100)
-    home_phone = models.CharField(max_length=20)
-    mobile = models.CharField(max_length=20)
+    home_phone = PhoneField(blank=True, help_text='Home phone number')
+    mobile = PhoneField(blank=True, help_text='Mobile number')
     date_added = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateField(auto_now=True)
     
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.username}'
     
     
 class Booking(models.Model):      
@@ -24,7 +25,7 @@ class Booking(models.Model):
     end_date = models.DateTimeField()
     date_added = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    recurring = models.BooleanField(default=False)
+    recurring = models.BooleanField(default=False, blank=True, null=True)
     owner = models.ForeignKey(Member, 
                                on_delete=models.PROTECT, 
                                related_name='booked_by')

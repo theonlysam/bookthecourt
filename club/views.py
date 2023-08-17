@@ -1,14 +1,24 @@
 from django.shortcuts import render
-from django.views import View
+from django.contrib import messages
+
+from .forms import BookingForm
 
 
-class CreateBookingView(View):
 
-    def get(self, request, *args, **kwargs):
-        pass
-        # select all bookings for today and tomorrow
+def Booking(request):
 
-    def post(self, request, *args, **kwargs):
-        pass
+    if request.method == "GET":
+        form = BookingForm()
 
+    elif request.method == "POST":
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Booking added successfully')
+            form = BookingForm
+
+    context = {
+        "form": form,
+    }
+    return render(request, 'club/booking.html', context)
 
